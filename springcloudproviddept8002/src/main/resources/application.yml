@@ -1,0 +1,15 @@
+
+eureka:
+  instance:
+    instance-id: springcloud-provid-dept8002
+  client:
+    service-url:
+      defaultZone: http://eureka7001:7001/eureka/,http://eureka7002:7002/eureka/,http://eureka7003:7003/eureka/
+
+spring:
+  application:
+    name: springcloud-provid-dept
+
+info:
+  app.name: springcloud-privder
+  company.name: com.springcloud

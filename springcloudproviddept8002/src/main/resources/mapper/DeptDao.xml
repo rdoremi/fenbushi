@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springcloud.dao.DeptDao">
+
+    <resultMap type="com.sc.api.pojo.Dept" id="DeptMap">
+        <result property="deptno" column="deptno" jdbcType="BIGINT"/>
+        <result property="dname" column="dname" jdbcType="VARCHAR"/>
+        <result property="db_source" column="db_source" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="DeptMap">
+        select
+          deptno, dname, db_source
+        from enterprise.dept
+        where deptno = #{deptno}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="DeptMap">
+        select
+          deptno, dname, db_source
+        from enterprise.dept
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="DeptMap">
+        select
+          deptno, dname, db_source
+        from enterprise.dept
+        <where>
+            <if test="deptno != null">
+                and deptno = #{deptno}
+            </if>
+            <if test="dname != null and dname != ''">
+                and dname = #{dname}
+            </if>
+            <if test="db_source != null and db_source != ''">
+                and db_source = #{db_source}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="deptno" useGeneratedKeys="true">
+        insert into enterprise.dept(dname, db_source)
+        values (#{dname}, #{db_source})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update enterprise.dept
+        <set>
+            <if test="dname != null and dname != ''">
+                dname = #{dname},
+            </if>
+            <if test="db_source != null and db_source != ''">
+                db_source = #{db_source},
+            </if>
+        </set>
+        where deptno = #{deptno}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from enterprise.dept where deptno = #{deptno}
+    </delete>
+
+</mapper>
